@@ -18,7 +18,7 @@
 # This is to avoid hardcoding the gcc versions for the ROM and kernels.
 
  TARGET_SM_AND := $(TARGET_GCC_VERSION)
- TARGET_SM_KERNEL := 6.0
+ TARGET_SM_KERNEL := $(TARGET_GCC_VERSION_KERNEL)
 
  # Set GCC colors
  export GCC_COLORS := 'error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
@@ -28,8 +28,17 @@ ifeq (Linux,$(UNAME))
   HOST_OS := linux
 endif
 
+  TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-linux-android-$(TARGET_SM_AND)/lib
+  export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-linux-android-$(TARGET_SM_AND)/lib
+
+  TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi-$(TARGET_SM_AND)/lib
+  export TARGET_ARCH_LIB_PATH := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi-$(TARGET_SM_AND)/lib
 
   # Path to toolchain
+  SM_AND_PATH := prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-linux-android-$(TARGET_SM_AND)
+  SM_AND := $(shell cat $(SM_AND_PATH)/VERSION)
+
+  # Path to arm toolchain
   SM_AND_PATH := prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-linux-androideabi-$(TARGET_SM_AND)
   SM_AND := $(shell cat $(SM_AND_PATH)/VERSION)
 
@@ -44,6 +53,10 @@ endif
      ro.sm.android=$(SM_AND_VERSION)
 
   # Path to kernel toolchain
+  SM_KERNEL_PATH := prebuilts/gcc/$(HOST_PREBUILT_TAG)/aarch64/aarch64-$(TARGET_SM_KERNEL)
+  SM_KERNEL := $(shell $(SM_KERNEL_PATH)/bin/aarch64-gcc --version)
+
+  # Path to arm kernel toolchain
   SM_KERNEL_PATH := prebuilts/gcc/$(HOST_PREBUILT_TAG)/arm/arm-eabi-$(TARGET_SM_KERNEL)
   SM_KERNEL := $(shell $(SM_KERNEL_PATH)/bin/arm-eabi-gcc --version)
 
