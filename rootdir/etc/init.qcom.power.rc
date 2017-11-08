@@ -1,22 +1,30 @@
 on boot
-   # add a cpuset for the camera daemon
-   # we want all the little cores for camera
-   mkdir /dev/cpuset/camera-daemon
-   write /dev/cpuset/camera-daemon/cpus 0
-   write /dev/cpuset/camera-daemon/mems 0
-   chown system system /dev/cpuset/camera-daemon
-   chown system system /dev/cpuset/camera-daemon/tasks
-   chmod 0664 /dev/cpuset/camera-daemon/tasks
+    # add a cpuset for the camera daemon
+    # we want all the little cores for camera
+    mkdir /dev/cpuset/camera-daemon
+    write /dev/cpuset/camera-daemon/cpus 0
+    write /dev/cpuset/camera-daemon/mems 0
+    chown system system /dev/cpuset/camera-daemon
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0664 /dev/cpuset/camera-daemon/tasks
 
-   # update foreground cpuset now that processors are up
-   # reserve CPU 3 for the top app and camera daemon
-   write /dev/cpuset/foreground/cpus 0-2,4-5
-   write /dev/cpuset/foreground/boost/cpus 4-5
-   write /dev/cpuset/background/cpus 0
-   write /dev/cpuset/system-background/cpus 0-2
-   write /dev/cpuset/top-app/cpus 0-5
-   write /dev/cpuset/camera-daemon/cpus 0-3
- 
+    # update foreground cpuset now that processors are up
+    # reserve CPU 3 for the top app and camera daemon
+    write /dev/cpuset/foreground/cpus 0-2,4-5
+    write /dev/cpuset/foreground/boost/cpus 4-5
+    write /dev/cpuset/background/cpus 0
+    write /dev/cpuset/system-background/cpus 0-2
+    write /dev/cpuset/top-app/cpus 0-5
+    write /dev/cpuset/camera-daemon/cpus 0-3
+
+    # Set light thermal restrictions while optimizing apps
+    # [throttle_freq_LITTLE, throttle_freq_big, throttle_temp, unthrottle_temp]
+    write /sys/kernel/msm_thermal/zone0 "1536000 1555200 46 44"
+    write /sys/kernel/msm_thermal/zone1 "1536000 1344000 50 47"
+    write /sys/kernel/msm_thermal/zone2 "1536000 960000 55 53"
+    write /sys/kernel/msm_thermal/zone3 "1344000 768000 65 63"
+    write /sys/kernel/msm_thermal/enabled 1
+
 on enable-low-power
 
     # Ensure at most one A57 is online when thermal hotplug is disabled
@@ -25,7 +33,6 @@ on enable-low-power
     write /sys/devices/system/cpu/cpu7/online 0
 
     # Disable thermal bcl hotplug to switch governor
-    write /sys/module/msm_thermal/core_control/enabled 0
     write /sys/devices/soc.0/qcom,bcl.62/mode "disable"
     write /sys/devices/soc.0/qcom,bcl.62/hotplug_mask 0
     write /sys/devices/soc.0/qcom,bcl.62/hotplug_soc_mask 0
@@ -61,12 +68,25 @@ on enable-low-power
     write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 633600
 
     # Re-enable thermal and BCL hotplug
-    write /sys/module/msm_thermal/core_control/enabled 1
     write /sys/devices/soc.0/qcom,bcl.62/mode "disable"
     write /sys/devices/soc.0/qcom,bcl.62/hotplug_mask 192
     write /sys/devices/soc.0/qcom,bcl.62/hotplug_soc_mask 240
     write /sys/devices/soc.0/qcom,bcl.62/mode "enable"
-    
+
+    # Set normal thermal restrictions
+    write /sys/kernel/msm_thermal/enabled 0
+    write /sys/kernel/msm_thermal/zone0 "1536000 1555200 40 38"
+    write /sys/kernel/msm_thermal/zone1 "1536000 1555200 41 40"
+    write /sys/kernel/msm_thermal/zone2 "1536000 1440000 42 41"
+    write /sys/kernel/msm_thermal/zone3 "1536000 1440000 43 42"
+    write /sys/kernel/msm_thermal/zone4 "1344000 1440000 44 43"
+    write /sys/kernel/msm_thermal/zone5 "1248000 1344000 46 44"
+    write /sys/kernel/msm_thermal/zone6 "1344000 1248000 48 46"
+    write /sys/kernel/msm_thermal/zone7 "960000 960000 53 50"
+    write /sys/kernel/msm_thermal/zone8 "768000 768000 65 60"
+    write /sys/kernel/msm_thermal/sampling_ms 8000
+    write /sys/kernel/msm_thermal/enabled 1
+
     # Enable low power modes
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
 
