@@ -1,0 +1,17 @@
+[
+  {
+    "repository": "CandyDevices/device_oppo_common",
+    "target_path": "device/oppo/common",
+    "branch": "c8.0"
+  },
+  {
+    "repository": "CertifiedBlyndGuy/zippy-msm8994",
+    "target_path": "kernel/oneplus/msm8994",
+    "branch": "master"
+  },
+  {
+    "repository": "uberdevices/vendor_oneplus",
+    "target_path": "vendor/oneplus",
+    "branch": "master"
+  }
+]
