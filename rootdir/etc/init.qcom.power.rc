@@ -19,15 +19,12 @@ on boot
  
 on enable-low-power
 
-   # Ensure at most one A57 is online when thermal hotplug is disabled
-   write /sys/devices/system/cpu/cpu5/online 0
-   write /sys/devices/system/cpu/cpu6/online 0
-   write /sys/devices/system/cpu/cpu7/online 0
- 
-   # Limit A57 max freq from msm_perf module in case CPU 4 is offline
-    write /sys/module/msm_performance/parameters/cpu_max_freq "4:960000 5:960000 6:960000 7:960000"
+    # Ensure at most one A57 is online when thermal hotplug is disabled
+    write /sys/devices/system/cpu/cpu5/online 0
+    write /sys/devices/system/cpu/cpu6/online 0
+    write /sys/devices/system/cpu/cpu7/online 0
 
-   # Disable thermal bcl hotplug to switch governor
+    # Disable thermal bcl hotplug to switch governor
     write /sys/module/msm_thermal/core_control/enabled 0
     write /sys/devices/soc.0/qcom,bcl.62/mode "disable"
     write /sys/devices/soc.0/qcom,bcl.62/hotplug_mask 0
@@ -76,9 +73,6 @@ on enable-low-power
     
     # Enable low power modes
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
-
-    # Restore CPU 4 max freq from msm_performance
-    write /sys/module/msm_performance/parameters/cpu_max_freq "4:4294967295 5:4294967295 6:4294967295 7:4294967295"
 
     # Input boost configuration
     write /sys/module/cpu_boost/parameters/input_boost_freq "0:1344000"
