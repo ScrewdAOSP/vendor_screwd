@@ -204,6 +204,7 @@ CONFIG_EAP_PROXY_MSM8994_TARGET := true
 
 # Enable dexpreopt to speed boot time
 WITH_DEXPREOPT := true
+DONT_DEXPREOPT_PREBUILTS := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := $(PLATFORM_PATH)/rootdir/etc/fstab.qcom
