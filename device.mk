@@ -350,6 +350,3 @@ PRODUCT_COPY_FILES += \
 # Data switch hack
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/netmgrd_control.sh:system/etc/netmgrd_control.sh
-
-# Inherit from oppo-common
-$(call inherit-product, device/oppo/common/common.mk)
