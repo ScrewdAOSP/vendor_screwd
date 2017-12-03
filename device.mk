@@ -153,6 +153,10 @@ PRODUCT_PACKAGES += \
     liboverlay \
     libtinyxml
 
+# Extensions
+PRODUCT_PACKAGES += \
+    Oneplus2Parts
+
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     e2fsck \
@@ -273,7 +277,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/lib64/libopcamera.so:system/lib64/libopcamera.so \
     $(LOCAL_PATH)/prebuilts/lib64/libopcameralib.so:system/lib64/libopcameralib.so
 
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
@@ -297,7 +300,6 @@ PRODUCT_PACKAGES += \
     librmnetctl \
     libxml2 \
     rild_socket
-    
 
 # Sensors
 PRODUCT_PACKAGES += \
