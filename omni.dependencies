@@ -36,18 +36,6 @@
     "revision": "android-8.0"
   },
   {
-    "remote": "omnirom",
-    "repository": "android_external_libnfnetlink",
-    "target_path": "external/libnfnetlink",
-    "revision": "android-8.0"
-  },
-  {
-    "remote": "omnirom",
-    "repository": "android_external_libnetfilter_conntrack",
-    "target_path": "external/libnetfilter_conntrack",
-    "revision": "android-8.0"
-  },
-  {
     "repository": "android_external_ant-wireless_antradio-library",
     "target_path": "external/ant-wireless/antradio-library",
     "revision": "android-8.0"
